@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:task="http://www.springframework.org/schema/task"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/task
+    http://www.springframework.org/schema/task/spring-task.xsd">
+
+  <bean id="defaultRestTemplate" class="org.springframework.web.client.RestTemplate"/>
+
+  <alias name="defaultSolarEdgeRestTemplate" alias="solarEdgeRestTemplate"/>
+  <bean id="defaultSolarEdgeRestTemplate" parent="defaultRestTemplate"/>
+
+  <alias name="defaultSolarEdgeService" alias="solarEdgeService"/>
+  <bean id="defaultSolarEdgeService"
+    class="com.automate.solarevcharging.solar.service.impl.DefaultSolarEdgeService"
+    autowire="byName">
+    <property name="currentStateUrl" value="${solar_current_state_url}"/>
+  </bean>
+
+  <alias name="defaultCurrentSolarStateToSolarStateDTOConverter"
+    alias="currentSolarStateToSolarStateDTOConverter"/>
+  <bean id="defaultCurrentSolarStateToSolarStateDTOConverter"
+    class="com.automate.solarevcharging.solar.converter.CurrentSolarStateToSolarStateDTOConverter"
+    autowire="byName">
+    <property name="pattern" value="${solar_site_date_time_pattern}"/>
+    <property name="timeZoneOffset" value="${solar_site_zone_offset}"/>
+    <property name="patternedDateTimeFormatter"
+      value="#{T(java.time.format.DateTimeFormatter).ofPattern('${solar_site_date_time_pattern}')}"/>
+  </bean>
+
+  <alias name="defaultSolarStateRecorderFacade" alias="solarStateRecorderFacade"/>
+  <bean id="defaultSolarStateRecorderFacade"
+    class="com.automate.solarevcharging.solar.facade.impl.DefaultSolarStateRecorderFacade"
+    autowire="byName"/>
+
+  <task:scheduled-tasks>
+    <task:scheduled ref="solarStateRecorderFacade" method="saveSolarState"
+      fixed-rate="${solar_site_data_recorder_schedule}"/>
+  </task:scheduled-tasks>
+
+</beans>
