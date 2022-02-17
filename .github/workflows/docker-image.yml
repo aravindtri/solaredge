@@ -25,6 +25,7 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build with Maven
+        id: generate-jar
         run: mvn -B package --file pom.xml
       -
         name: Checkout
@@ -41,6 +42,8 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v2
+        run: |
+          ls -lrt
         with:
           context: .
           file: ./Dockerfile
