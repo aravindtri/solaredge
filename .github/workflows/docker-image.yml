@@ -26,7 +26,9 @@ jobs:
 
       - name: Build with Maven
         id: generate-jar
-        run: mvn -B package --file pom.xml
+        run: |
+          mvn -B package --file pom.xml
+          ls -lrt
       -
         name: Checkout
         uses: actions/checkout@v2
