@@ -42,5 +42,5 @@ jobs:
       -
         name: Build and push
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/solar_edge_db_logger:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/solar_edge_db_logger:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/solar_edge_db_logger:latest
