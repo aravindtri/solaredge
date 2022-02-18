@@ -5,6 +5,7 @@ import com.automate.solarevcharging.solar.dto.SolarStateDTO;
 import java.lang.invoke.MethodHandles;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -29,9 +30,12 @@ public class CurrentSolarStateToSolarStateDTOConverter implements
     return solarStateDTO;
   }
 
-  private ZonedDateTime convertStringToDate(String lastUpdateTime) {
-    return ZonedDateTime.parse(lastUpdateTime + " " + timeZoneOffset, patternedDateTimeFormatter);
+  private Date convertStringToDate(String lastUpdateTime) {
+    return Date
+        .from(ZonedDateTime.parse(lastUpdateTime + " " + timeZoneOffset, patternedDateTimeFormatter)
+            .toInstant());
   }
+
 
   protected SolarStateDTO getSolarStateDTO() {
     return new SolarStateDTO();

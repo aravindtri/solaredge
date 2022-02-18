@@ -1,6 +1,6 @@
 package com.automate.solarevcharging.solar.dto;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,7 @@ public class SolarStateDTO {
   @Column
   private double power;
   @Column
-  private ZonedDateTime updatedTime;
+  private Date updatedTime;
   @Column
   private double cumulativePowerForToday;
 
@@ -31,11 +31,11 @@ public class SolarStateDTO {
     this.power = power;
   }
 
-  public ZonedDateTime getUpdatedTime() {
+  public Date getUpdatedTime() {
     return updatedTime;
   }
 
-  public void setUpdatedTime(ZonedDateTime updatedTime) {
+  public void setUpdatedTime(Date updatedTime) {
     this.updatedTime = updatedTime;
   }
 
