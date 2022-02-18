@@ -19,8 +19,13 @@ public class DefaultSolarStateRecorderFacade implements SolarStateRecorderFacade
   @Override
   public SolarStateDTO saveSolarState() {
     LOG.debug("Calling SE Service and saving..");
-    return getSolarStateRepository().save(getCurrentSolarStateToSolarStateDTOConverter()
-        .convert(getSolarEdgeService().getCurrentSolarState()));
+    return getSolarStateRepository().save(getSolarState());
+  }
+
+  @Override
+  public SolarStateDTO getSolarState() {
+    return getCurrentSolarStateToSolarStateDTOConverter()
+        .convert(getSolarEdgeService().getCurrentSolarState());
   }
 
   protected SolarEdgeService getSolarEdgeService() {
